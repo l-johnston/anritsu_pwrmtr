@@ -3,13 +3,13 @@ Python interface to the Anritsu power meters
 
 ## Installation
 ```windows
->pip install anritsu_pwrmeter
+>pip install anritsu_pwrmtr
 ```  
 
 ## Usage
 
 ```python
->>> from anritsu_pwrmeter import CommChannel
+>>> from anritsu_pwrmtr import CommChannel
 >>> with CommChannel(13) as pm:
 ...     pm.ch1.read()
 ...
