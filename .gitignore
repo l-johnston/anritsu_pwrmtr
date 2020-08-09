@@ -1,0 +1,11 @@
+anritsu_docs/
+.pytest_cache/
+__pycache__/
+.vscode/
+.coverage
+htmlcov/
+build/
+dist/
+doc/_build
+anritsu_pwrmtr.egg-info/
+venv/
