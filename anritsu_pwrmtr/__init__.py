@@ -1,16 +1,11 @@
 """anritsu_pwrmtr - an interface to the Anritsu power meters
 """
 import pyvisa
-from unyt import define_unit, matplotlib_support
 from anritsu_pwrmtr.common import get_idn
 from anritsu_pwrmtr.pwrmeter import PowerMeter
 from anritsu_pwrmtr.version import __version__
 
 __all__ = ["CommChannel"]
-
-define_unit("dBm", (1.0, "dB"))
-matplotlib_support()
-matplotlib_support.label_style = "/"
 
 
 class CommChannel:
