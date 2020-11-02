@@ -1,14 +1,19 @@
-"""PowerMeter"""
+"""ML243xA series power meter"""
 import sys
 import asyncio
 import itertools
-from dataclasses import dataclass
 import pyvisa
-from anritsu_pwrmtr.common import InstrumentBase, get_idn, Subsystem, parse_number
+from anritsu_pwrmtr.common import (
+    InstrumentBase,
+    get_idn,
+    Subsystem,
+    parse_number,
+    State,
+)
 
 
-class PowerMeter(InstrumentBase):
-    """PowerMeter class
+class ML243xA(InstrumentBase):
+    """ML243xA class
 
     Attributes:
         visa (pyvisa.resources.Resource): pyvisa resource
@@ -277,19 +282,12 @@ class Channel(Subsystem, kind="Channel"):
 UNITS = {"W": "W", "DBM": "dBm", "DBUV": "dBmV", "DBMV": "dBmV"}
 
 
-@dataclass
-class State:
-    """Signal for controlling asyncio tasks"""
-
-    running: bool = False
-
-
 class Sensor(Subsystem, kind="Sensor"):
     """Sensor subsystem
 
     Attributes
     ----------
-        instr : PowerMeter
+        instr : ML243xA
         designation : str
             Sensor {A, B}
     """

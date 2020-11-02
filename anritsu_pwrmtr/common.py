@@ -2,6 +2,7 @@
 from collections import namedtuple
 import functools
 import re
+from dataclasses import dataclass
 
 IDN = namedtuple("IDN", ["manufacturer", "model", "serial_number", "firmware_version"])
 
@@ -16,6 +17,13 @@ SI_PREFIXES = "kMG"
 UNITS = "Hz"
 P3 = f" ?[{SI_PREFIXES}]"
 NUMBER = f"^(?P<mantissa>{P1})(?P<exponent>{P2}|{P3})?( ?{UNITS})?$"
+
+
+@dataclass
+class State:
+    """Signal for controlling asyncio tasks"""
+
+    running: bool = False
 
 
 def parse_number(n):
