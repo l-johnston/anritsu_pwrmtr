@@ -4,6 +4,7 @@ import pyvisa
 from anritsu_pwrmtr.common import get_idn
 from anritsu_pwrmtr.ml243xa import ML243xA
 from anritsu_pwrmtr.ma243x0a import MA243x0A
+from anritsu_pwrmtr.lmr_master.s412e import S412E
 from anritsu_pwrmtr.version import __version__
 
 __all__ = ["CommChannel"]
@@ -13,6 +14,7 @@ PWRMTR = {
     "ML2437A": ML243xA,
     "ML2438A": ML243xA,
     "MA24330A": MA243x0A,
+    "S412E": S412E,
 }
 
 
@@ -44,7 +46,9 @@ class CommChannel:
             raise ValueError(
                 f"Device at {self._address} is a not an Anritsu instrument"
             )
-        return PWRMTR[idn.model](self._visa)
+        # some models append installed options as '/' delimited
+        m_str = idn.model.split("/")[0]
+        return PWRMTR[m_str](self._visa)
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         self._visa.close()
