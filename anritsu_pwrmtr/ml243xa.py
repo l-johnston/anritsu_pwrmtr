@@ -78,7 +78,7 @@ class ML243xA(InstrumentBase):
     @property
     def display(self):
         """value : str
-            Turn display ON or OFF
+        Turn display ON or OFF
         """
         return self._visa.query("DISP?")
 
@@ -89,7 +89,7 @@ class ML243xA(InstrumentBase):
     @property
     def frequency_offset_display(self):
         """value : str
-            Turn ON or OFF the display of frequency and offset of the sensors
+        Turn ON or OFF the display of frequency and offset of the sensors
         """
         return self._visa.query("FROFF?")
 
@@ -104,7 +104,7 @@ class ML243xA(InstrumentBase):
     @property
     def mode(self):
         """value : str
-            Selects operating mode {digital readout, profile, power vs. time, source sweep}
+        Selects operating mode {digital readout, profile, power vs. time, source sweep}
         """
         value = self._visa.query("OPMD?").split("OPMD ")[-1]
         return MODE[value]
@@ -118,7 +118,7 @@ class ML243xA(InstrumentBase):
     @property
     def text_display(self):
         """value : str
-            Text to display. Setting to '' turns it off.
+        Text to display. Setting to '' turns it off.
         """
         return self._visa.query("TEXT?")
 
@@ -259,8 +259,8 @@ class Channel(Subsystem, kind="Channel"):
         result = value.split(",")[-1]
         return result
 
-    def read(self, samples=1, timeout=10):
-        """Return the next measured value
+    def read(self, samples=1, timeout=10, settle=False):
+        """Return measured value(s)
 
         Parameters
         ----------
@@ -268,10 +268,16 @@ class Channel(Subsystem, kind="Channel"):
             Number of samples to return (1 to 1000)
         timeout : int
             Time out number of seconds
+        settle : bool
+            If settle and averaging ON, clear buffer and start acquisition, return
+            one sample. So called 'trigger with settling delay'.
         """
         original_timeout = self._visa.timeout
         self._visa.timeout = 1000 * timeout
-        self._visa.write(f"ON {self._ch},{samples}")
+        if not settle:
+            self._visa.write(f"ON {self._ch},{samples}")
+        else:
+            self._visa.write(f"TR2 {self._ch}")
         values = self._visa.read_ascii_values()
         self._visa.timeout = original_timeout
         if len(values) == 1:
@@ -425,7 +431,7 @@ class Sensor(Subsystem, kind="Sensor"):
     @property
     def frequency(self):
         """value : float or str
-            Cal factor frequency 9 kHz to 122 GHz
+        Cal factor frequency 9 kHz to 122 GHz
         """
         query_response = self._visa.query(f"CFFRQ? {self._s}")
         value = float(query_response.split(",")[-1])
