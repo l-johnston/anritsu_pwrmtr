@@ -2,6 +2,7 @@
 import sys
 import asyncio
 import itertools
+import time
 import pyvisa
 from anritsu_pwrmtr.common import (
     InstrumentBase,
@@ -338,6 +339,9 @@ class Sensor(Subsystem, kind="Sensor"):
         mode = AVERAGING_rev.get(mode, mode).upper()
         self._visa.write(f"AVG {self._s},{mode},{number}")
         self._visa.write(f"AVGLL {self._s},{post_filter}")
+        # from some unknown reason, a time delay is required here
+        # otherwise get a visa timeout. *OPC doesn't work
+        time.sleep(1)
 
     async def _show_spinner(self):
         """Show an in-progress spinner during acquisition"""
