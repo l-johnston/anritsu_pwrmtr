@@ -9,3 +9,4 @@ dist/
 doc/_build
 anritsu_pwrmtr.egg-info/
 venv/
+hw_test
