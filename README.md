@@ -1,4 +1,5 @@
 ![Build Status](https://github.com/l-johnston/anritsu_pwrmtr/workflows/publish/badge.svg)
+![PyPI](https://img.shields.io/pypi/v/anritsu_pwrmtr)
 # `anritsu_pwrmtr`
 Python interface to the Anritsu power meters
 
