@@ -13,6 +13,8 @@ PWRMTR = {
     "ML2437A": ML243xA,
     "ML2438A": ML243xA,
     "MA24330A": MA243x0A,
+    "MA24340A": MA243x0A,
+    "MA24350A": MA243x0A,
 }
 
 
